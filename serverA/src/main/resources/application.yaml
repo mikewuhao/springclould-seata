@@ -3,3 +3,8 @@ server:
 spring:
   application:
     name: serverA
+  datasource:
+    url: jdbc:mysql://10.39.52.247:3306/middleware_dev_test
+    username: middleware_rw
+    password: 0knbUcRSi91sZX3Wtv7IBLT5
+    driver-class-name: com.mysql.cj.jdbc.Driver
