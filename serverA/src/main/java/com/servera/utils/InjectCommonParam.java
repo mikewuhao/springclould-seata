@@ -33,6 +33,21 @@ public class InjectCommonParam {
     }
 
     /**
+     * 插入前触发，填充公用参数
+     *
+     * @param obj 待设置公共参数的对象
+     */
+    public void updateFills(Object obj){
+
+        //实际情况得从token中获取用户信息,先打个桩
+        BasePo basePo = new BasePo();
+        basePo.setUpdateId("234567");
+
+        setField(obj, "setUpdateId", basePo.getUpdateId());
+        setField(obj, "setUpdateTime", new Date());
+    }
+
+    /**
      * @param obj 对象
      * @param methodName 方法名
      * @param value 待设置的值
