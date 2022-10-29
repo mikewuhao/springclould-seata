@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.servera.controller.req.AddUserRequest;
 import com.servera.controller.req.ModifyUserRequest;
+import com.servera.controller.req.QueryUserRequest;
+import com.servera.mapper.po.UserPo;
 import com.servera.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -41,10 +44,10 @@ public class UserController {
         return R.data(userService.deleteUser(id));
     }
 
-    //@PostMapping("/list")
-    //@ApiOperation(value = "删除")
-    //public R deleteUser(@RequestBody QueryUserRequest req){
-    //    return R.data(userService.queryListByPage(req));
-    //}
+    @PostMapping("/list")
+    @ApiOperation(value = "分页查询")
+    public R<IPage<UserPo>> queryUserByPage(@RequestBody QueryUserRequest req){
+        return R.data(userService.queryUserByPage(req));
+    }
 
 }

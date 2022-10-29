@@ -10,7 +10,7 @@ import lombok.ToString;
 @ApiModel
 @Data
 @ToString
-public class QueryUserRequest implements Serializable {
+public class QueryUserRequest extends PageQuery implements Serializable {
     private static final long serialVersionUID = 421846451656729270L;
 
     @ApiModelProperty(value = "名称")

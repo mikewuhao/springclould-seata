@@ -8,3 +8,6 @@ management:
   health:
     redis:
       enabled: false
+logging:
+  level:
+    com.servera.mapper: debug
