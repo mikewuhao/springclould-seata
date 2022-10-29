@@ -5,8 +5,8 @@ import javax.annotation.Resource;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import com.servera.controller.req.AddUseRequest;
-import com.servera.controller.req.ModifyUseRequest;
+import com.servera.controller.req.AddUserRequest;
+import com.servera.controller.req.ModifyUserRequest;
 import com.servera.mapper.UserMapper;
 import com.servera.mapper.po.UserPo;
 import com.servera.service.UserService;
@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     private InjectCommonParam injectCommonParam;
 
     @Override
-    public Integer addUser(AddUseRequest req){
+    public Integer addUser(AddUserRequest req){
 
         UserPo userPo = new UserPo();
         BeanUtils.copyProperties(req, userPo);
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Integer modifyUser(ModifyUseRequest req){
+    public Integer modifyUser(ModifyUserRequest req){
 
         UserPo userPo = new UserPo();
         BeanUtils.copyProperties(req, userPo);

@@ -1,14 +1,14 @@
 package com.servera.service;
 
-import com.servera.controller.req.AddUseRequest;
-import com.servera.controller.req.ModifyUseRequest;
+import com.servera.controller.req.AddUserRequest;
+import com.servera.controller.req.ModifyUserRequest;
 
 
 public interface UserService {
 
-    Integer addUser(AddUseRequest req);
+    Integer addUser(AddUserRequest req);
 
-    Integer modifyUser(ModifyUseRequest req);
+    Integer modifyUser(ModifyUserRequest req);
 
     Integer deleteUser(Long id);
 

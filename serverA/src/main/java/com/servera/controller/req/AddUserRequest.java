@@ -10,7 +10,7 @@ import lombok.ToString;
 @ApiModel
 @Data
 @ToString
-public class AddUseRequest implements Serializable {
+public class AddUserRequest implements Serializable {
     private static final long serialVersionUID = 4699846451656729270L;
 
     @ApiModelProperty(value = "电话号码")

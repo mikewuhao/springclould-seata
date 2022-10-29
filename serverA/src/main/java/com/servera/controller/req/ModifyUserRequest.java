@@ -9,7 +9,7 @@ import lombok.Data;
  */
 
 @Data
-public class ModifyUseRequest extends AddUseRequest {
+public class ModifyUserRequest extends AddUserRequest {
     private static final long serialVersionUID = 4699846451652129270L;
     private Long id;
 }
