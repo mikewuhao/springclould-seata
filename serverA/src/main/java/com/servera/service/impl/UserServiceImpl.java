@@ -66,4 +66,15 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.selectPage(page, queryWrapper);
     }
+
+    @Override
+    public UserPo getUserInfoByUsername(String userName){
+        QueryWrapper<UserPo> queryWrapper = new QueryWrapper<>();
+        UserPo userPo = new UserPo();
+        userPo.setName(userName);
+        queryWrapper.setEntity(userPo);
+
+        return userMapper.selectOne(queryWrapper);
+
+    }
 }

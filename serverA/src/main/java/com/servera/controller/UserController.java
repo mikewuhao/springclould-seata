@@ -2,10 +2,12 @@ package com.servera.controller;
 
 import org.springblade.core.tool.api.R;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -50,4 +52,8 @@ public class UserController {
         return R.data(userService.queryUserByPage(req));
     }
 
+    @GetMapping("/getUserInfo")
+    public R<UserPo> getUserInfo(@RequestParam String username){
+        return R.data(userService.getUserInfoByUsername(username));
+    }
 }

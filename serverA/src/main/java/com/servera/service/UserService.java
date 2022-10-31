@@ -17,4 +17,6 @@ public interface UserService {
 
     IPage<UserPo> queryUserByPage(QueryUserRequest req);
 
+    UserPo getUserInfoByUsername(String userName);
+
 }

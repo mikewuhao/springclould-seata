@@ -19,6 +19,9 @@ public class AddUserRequest implements Serializable {
     @ApiModelProperty(value = "名称")
     private String name;
 
+    @ApiModelProperty(value = "密码")
+    private String password;
+
     @ApiModelProperty(value = "年龄")
     private Integer age;
 }

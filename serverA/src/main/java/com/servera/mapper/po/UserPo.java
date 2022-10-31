@@ -15,6 +15,9 @@ public class UserPo extends BasePo {
     @TableField(value = "name")
     private String name;
 
+    @TableField(value = "password")
+    private String password;
+
     @TableField(value = "age")
     private Integer age;
 }
