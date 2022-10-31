@@ -83,10 +83,12 @@
             <input type="password" name="password" placeholder="请输入密码">
         </div>
         <button type="submit">登录</button>
-        <br>
+        <br/>
+        <br/>
+        <!-- 以下为显示认证失败等提示信息（th:if=""一定要写 ）-->
+        <span style="color: red;" th:if="${param.error}"
+              th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></span>
     </div>
-    <!-- 以下为显示认证失败等提示信息（th:if=""一定要写 ）-->
-    <span style="color: red;" th:if="${param.error}" th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message}"></span>
 </form>
 </body>
 </html>
