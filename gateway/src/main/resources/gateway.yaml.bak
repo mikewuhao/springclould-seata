@@ -27,6 +27,12 @@ spring:
               redis-rate-limiter.replenishRate: 1
                # 每秒最大处理的请求数量# 令牌桶总容量
               redis-rate-limiter.burstCapacity: 1
+#白名单
+white:
+  filter:
+    uri:
+      - /order/query
+
 
   #redis配置
   redis:
@@ -40,6 +46,8 @@ spring:
     poolMaxIdle: 10
     ## 连接池最大阻塞等待时间（使用负值表示没有限制）
     poolMaxWait: 3
+
+
 
 
 

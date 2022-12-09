@@ -11,4 +11,9 @@ public class OrderController {
 		return "Hello,my name is order";
 	}
 
+	@RequestMapping("/query")
+	public String query() {
+		return "order info list";
+	}
+
 }
