@@ -1,17 +1,13 @@
-##########nacos的gateway配置文件##########
-
 spring:
   cloud:
     gateway:
       routes:
-
         - id: order
           uri: lb://order
           predicates:
           - Path=/order/**
           filters:
           - StripPrefix=1
-
         - id: goods
           uri: lb://goods
           predicates:
@@ -19,20 +15,14 @@ spring:
           filters:
           - StripPrefix=1
           # 指定过滤器
-          - name: RequestRateLimiter
-            args:
-              # 指定限流标识
-              key-resolver: '#{@ipResolver}'
-              # 每秒允许处理的请求数量  #  令牌桶每秒填充平均速率
-              redis-rate-limiter.replenishRate: 1
-               # 每秒最大处理的请求数量# 令牌桶总容量
-              redis-rate-limiter.burstCapacity: 1
-#白名单
-white:
-  filter:
-    uri:
-      - /order/query
-
+          # - name: RequestRateLimiter
+          #   args:
+          #     # 指定限流标识
+          #     key-resolver: '#{@ipResolver}'
+          #     # 每秒允许处理的请求数量  #  令牌桶每秒填充平均速率
+          #     redis-rate-limiter.replenishRate: 1
+          #      # 每秒最大处理的请求数量# 令牌桶总容量
+          #     redis-rate-limiter.burstCapacity: 1
 
   #redis配置
   redis:
@@ -47,6 +37,11 @@ white:
     ## 连接池最大阻塞等待时间（使用负值表示没有限制）
     poolMaxWait: 3
 
+    # sentinel配置
+    sentinel:
+      transport:
+        # 指定sentinel控制台远程地址
+        dashboard: 127.0.0.1:8080
 
 
 
