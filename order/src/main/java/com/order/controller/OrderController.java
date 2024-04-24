@@ -1,6 +1,11 @@
 package com.order.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.order.client.GoodsFeignClient;
+import com.order.dao.OrderDao;
+import com.order.domain.Order;
+import com.order.service.OrderService;
+import io.seata.spring.annotation.GlobalTransactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,7 +17,8 @@ import javax.annotation.Resource;
 public class OrderController {
 
 	@Resource
-	GoodsFeignClient goodsFeignClient;
+	OrderService orderService;
+
 
 	@RequestMapping("/hello")
 	public String hello() {
@@ -20,7 +26,8 @@ public class OrderController {
 	}
 
 	@RequestMapping("/query")
-	public String query() {
+	public String query(){
+		System.err.println("query");
 		return "order info list";
 	}
 
@@ -35,12 +42,13 @@ public class OrderController {
 	}
 
 
-	@RequestMapping("/pay")
-	public String pay() {
-		log.info("准备下单------");
-		log.info(goodsFeignClient.reduce());
-		return "pay finish";
+	@RequestMapping("/test")
+	public void test() throws Exception {
+		orderService.test();
 	}
 
-
+	@RequestMapping("/pay")
+	public String pay() {
+		return orderService.pay();
+	}
 }

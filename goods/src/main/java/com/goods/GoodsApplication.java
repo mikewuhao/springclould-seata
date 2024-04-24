@@ -1,16 +1,17 @@
 package com.goods;
 
+import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(exclude = DataSourceAutoConfiguration.class) //排除掉数据库自动加载
+@SpringBootApplication
 @EnableFeignClients
+@EnableJpaRepositories
 public class GoodsApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(GoodsApplication.class, args);
     }
-
 }

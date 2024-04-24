@@ -1,5 +1,70 @@
 server:
-  port: 7002
+  port: 7004
 spring:
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeOut: 5000
   application:
     name: goods
+  datasource:
+    #type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/mail_goods?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+    username: root
+    password: rootroot
+    hikari:
+      minimum-idle: 10 #最小空闲连接，默认10
+      maximum-pool-size: 20 #最大连接数
+      idle-timeout: 600000 #空闲连接超时时间，默认600000(10分钟)
+      max-lifetime: 540000 #连接最大存活时间，默认30分钟
+      connection-timeout: 60000 #连接超时时间，默认30秒
+      connection-test-query: SELECT 1 #测试连接是否可用查询语句
+    jpa:
+      database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+      show-sql:   true #控制台显示sql语句
+      properties:
+        hibernate:
+          jdbc:
+            batch_size: 500
+            batch_versioned_data: true
+          ddl-auto: update
+          format_sql: true
+          hbm2ddl:
+            auto: update
+      database: mysql
+    jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      time-zone: GMT+8
+# seata配置
+seata:
+  enabled: true
+  enable-auto-data-source-proxy: true
+  tx-service-group: order-seata-service-group
+  registry:
+    type: nacos
+    nacos:
+      application: seata-server
+      server-addr: 127.0.0.1:8848
+      group: DEFAULT_GROUP
+      username: nacos
+      password: nacos
+  config:
+    type: nacos
+    nacos:
+      server-addr: 127.0.0.1:8848
+      group: DEFAULT_GROUP
+      username: nacos
+      password: nacos
+      data-id: seataServer.properties
+  service:
+    vgroup-mapping:
+      order-seata-service-group: default
+    disable-global-transaction: false
+  client:
+    rm:
+      report-success-enable: false
+
+
+
