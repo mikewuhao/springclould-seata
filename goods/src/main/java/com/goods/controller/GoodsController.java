@@ -3,12 +3,10 @@ package com.goods.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.goods.domain.Goods;
 import com.goods.repository.GoodsDao;
-import com.wuhao.redis.config.RedisProperties;
-import com.wuhao.redis.core.RedisUtils;
-import io.seata.core.context.RootContext;
+import com.goods.request.ReduceGoodsRequest;
+import com.goods.response.ReduceGoodsResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -19,38 +17,24 @@ public class GoodsController {
     @Resource
     GoodsDao goodsDao;
 
-    @Resource
-    RedisUtils redisUtils;
-
-    @Resource
-    RedisProperties redisProperties;
-
-
     @RequestMapping("/hello")
     public String hello() {
         return "Hello,my name is goods";
     }
 
-//	@RequestMapping("/reduce/goods")
-//	public String reduceGoods() {
-//		log.info("扣减可乐1瓶，开始");
-//		return "扣减可乐1瓶";
-//	}
-
-    @RequestMapping("/reduce/goods")
-    public String reduceGoods() {
-        System.out.println("order事务id---------------------->" + RootContext.getXID());
-        Goods goods = goodsDao.findById(1L).get();
-        log.info("可乐商品情况----》" + JSONObject.toJSONString(goods));
-        goods.setGoodsStock(goods.getGoodsStock() - 10);
+    /**
+     * 扣减商品库存
+     * @param request 商品对象
+     * @return
+     */
+    @PostMapping(value = "/reduce/goods", produces = { "application/json;charset=utf-8" })
+    @ResponseBody
+    public ReduceGoodsResponse reduceGoods(@RequestBody ReduceGoodsRequest request) {
+        log.info("request：{}", JSONObject.toJSONString(request));
+        Goods goods = goodsDao.findById(request.getId()).get();
+        goods.setGoodsStock(goods.getGoodsStock() - request.getReduceCount());
         goodsDao.save(goods);
-        return "扣减可乐10瓶";
-    }
-
-    @RequestMapping("/test/redis")
-    public String redis() {
-        redisUtils.set("222", "hello world");
-        return "test key finish";
+        return ReduceGoodsResponse.builder().msg("商品扣减成功").statusCode(200).build();
     }
 
 }

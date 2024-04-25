@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Copyright 2022 skyworth
@@ -39,6 +41,13 @@ public class Order {
 
     @Column(name = "sku_number")
     private String skuNumber;
+
+    @Column(name = "modify_time")
+    private LocalDateTime modifyTime;
+
+
+    @Column(name = "createTime")
+    private LocalDateTime createTime;
 
 
 

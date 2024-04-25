@@ -1,7 +1,11 @@
 package com.order.client;
+import com.order.request.ReduceGoodsRequest;
+import com.order.response.ReduceGoodsResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
 
@@ -17,7 +21,7 @@ import javax.annotation.Resource;
 @FeignClient(name = "goods")
 public interface GoodsFeignClient {
 
-    @GetMapping("/reduce/goods") //被调用接口的请求类型
-    String reduce();
+    @PostMapping("/reduce/goods") //被调用接口的请求类型
+    ReduceGoodsResponse reduce(@RequestBody ReduceGoodsRequest request);
 
 }

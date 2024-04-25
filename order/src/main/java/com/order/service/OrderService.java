@@ -4,15 +4,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.order.client.GoodsFeignClient;
 import com.order.dao.OrderDao;
 import com.order.domain.Order;
+import com.order.request.ReduceGoodsRequest;
+import com.order.response.ReduceGoodsResponse;
 import io.seata.core.context.RootContext;
 import io.seata.spring.annotation.GlobalTransactional;
-import io.seata.tm.api.GlobalTransactionContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.concurrent.Callable;
+import java.time.LocalDateTime;
 
 /**
  * Copyright 2022 skyworth
@@ -31,57 +32,31 @@ public class OrderService {
     @Resource
     GoodsFeignClient goodsFeignClient;
 
-
-    public String hello(){
-        privateMock("这个是私有函数");
-        String name = "吴昊";
-        return "wuhao";
-    }
-
-    public String test() throws Exception {
-        this.printLog(()->{
-            System.out.println("hello");
-            return "hello";
-        });
-        return "hello";
-    }
-
-    private <T> void printLog(Callable<T> call) throws Exception {
-        T t = call.call();
-        log.info("---->"+ JSONObject.toJSONString(t));
-    }
-
-
-    private void privateMock(String mock){
-        System.err.println("----》"+mock);
-    }
-
-    @Transactional(rollbackFor = Exception.class)
+    /**
+     * 下订单场景：先创建订单，再扣减库存，
+     * @return
+     */
+    //@Transactional(rollbackFor = Exception.class)
     @GlobalTransactional
-    public String pay() {
-
-        System.out.println("order事务id---------------------->" + RootContext.getXID());
-
-        log.info("--创建订单--开始--");
+    public String addOrder() {
+        log.info("创建订单,开始");
         Order order = new Order();
         order.setOrderNo("20230617");
         order.setGoodsTotalCount(10);
         order.setGoodsName("可乐");
         order.setSkuNumber("33220011");
+        order.setModifyTime(LocalDateTime.now());
+        order.setCreateTime(LocalDateTime.now());
         orderDao.save(order);
-        try{
-            log.info("--商品减库存--开始--");
-            String res = goodsFeignClient.reduce();
-            log.info("--商品减库存--结束--》"+res);
-        }catch (Exception e){
-            log.error("商品减库存失败!!!");
-            throw new RuntimeException("商品减库存失败！",e);
-        }
+        log.info("创建订单,结束");
+
+        ReduceGoodsRequest request = ReduceGoodsRequest.builder().reduceCount(10).id(1L).build();
+        log.info("商品扣减库存，开始，rpc调用商品服务，入参：{}",JSONObject.toJSONString(request));
+        ReduceGoodsResponse response = goodsFeignClient.reduce(request);
+        log.info("商品扣减库存，完成，rpc调用商品服务，出参：{}",JSONObject.toJSONString(response));
+
+        //mock异常，检查让分布式事务全回滚
         int i = 10/0;
-        log.info("--创建订单--完成--");
-        System.err.println("order---->"+ JSONObject.toJSONString(order));
-
-        return "pay finish";
-
+        return "执行完成";
     }
 }
